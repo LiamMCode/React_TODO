@@ -6,8 +6,26 @@ class Item extends Component {
     super(props);
     this.state = {
       todos: ['Implement the addTodo method', 'Implement the removeTodo method', 'Implement the clearCompletedTodos method', 
-    'Implement the removeAllTodos method', 'Implement the showHideCompletedTodso method', 'Implement the toggleTodoCompleteStatus method']
+    'Implement the removeAllTodos method', 'Implement the showHideCompletedTodso method', 'Implement the toggleTodoCompleteStatus method'], 
+      value: ''
     }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const inputValue = form.elements["newTodo"].value;
+    alert('A name was submitted: ' + inputValue);
+    this.setState({
+      todos: this.state.todos.concat(inputValue)
+    })
   }
 
   render() {
@@ -15,9 +33,9 @@ class Item extends Component {
       <React.Fragment>
         <div className="todoapp stack-large">
           <h1>Todo App</h1>
-          <form>
-            <input type="text" id="new-todo-input" className="input input__lg" name="text" autoComplete="off"/>
-            <button type="submit" className="btn btn__primary btn__lg" onClick={addTodo()}> Add </button>
+          <form onSubmit={this.handleSubmit}>
+            <input type="text" id="newTodo" className="input input__lg" name="newTodo" autoComplete="off" value={this.state.value} onChange={this.handleChange}/>
+            <button type="submit" className="btn btn__primary btn__lg"> Add </button>
           </form>
           <div className="filters btn-group stack-exception">
             <button type="button" className="btn toggle-btn" aria-pressed="true" onClick={hideCompleted()}>
@@ -59,12 +77,8 @@ class Item extends Component {
   }
 }
 
-function addTodo() {
-
-}
-
 function removeTodo() {
-
+  // remove from array and re-render
 }
 
 function clearCompleted() {
@@ -72,7 +86,7 @@ function clearCompleted() {
 }
 
 function removeAll() {
-
+  // remove all and re-render
 }
 
 function hideCompleted() {
