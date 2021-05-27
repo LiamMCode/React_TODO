@@ -17,20 +17,20 @@ class Item extends Component {
           <h1>Todo App</h1>
           <form>
             <input type="text" id="new-todo-input" className="input input__lg" name="text" autoComplete="off"/>
-            <button type="submit" className="btn btn__primary btn__lg"> Add </button>
+            <button type="submit" className="btn btn__primary btn__lg" onClick={addTodo()}> Add </button>
           </form>
           <div className="filters btn-group stack-exception">
-            <button type="button" className="btn toggle-btn" aria-pressed="true">
+            <button type="button" className="btn toggle-btn" aria-pressed="true" onClick={hideCompleted()}>
               <span className="visually-hidden">Show </span>
               <span>Hide Completed</span>
               <span className="visually-hidden"> tasks</span>
             </button>
-            <button type="button" className="btn toggle-btn" aria-pressed="false">
+            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={removeAll()}>
               <span className="visually-hidden">Show </span>
               <span>Remove All</span>
               <span className="visually-hidden"> tasks</span>
             </button>
-            <button type="button" className="btn toggle-btn" aria-pressed="false">
+            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={clearCompleted()}>
               <span className="visually-hidden">Show </span>
               <span>Clear Completed</span>
               <span className="visually-hidden"> tasks</span>
@@ -46,7 +46,7 @@ class Item extends Component {
                   <label className="todo-label" htmlFor={this.state.todos.indexOf(todo)}> {todo}</label>
                 </div>
                 <div className="btn-group">
-                  <button type="button" className="btn btn__danger">
+                  <button type="button" className="btn btn__danger" onClick={removeTodo()}>
                   Delete <span className="visually-hidden">{todo}</span>
                   </button>
                 </div>
@@ -57,6 +57,26 @@ class Item extends Component {
       </React.Fragment>
     )
   }
+}
+
+function addTodo() {
+
+}
+
+function removeTodo() {
+
+}
+
+function clearCompleted() {
+
+}
+
+function removeAll() {
+
+}
+
+function hideCompleted() {
+  //have this button change text when completed todos hidden 
 }
 
 function App(props) {
