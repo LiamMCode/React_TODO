@@ -37,23 +37,23 @@ class Item extends Component {
             </button>
           </div>
           <h2 id="list-heading"> Tasks </h2>
-        </div>
 
-        <ul className="todo-list stack-large stack-exception" aria-labelledby="list-heading">
-          {this.state.todos.map(todo => (
-            <li className="todo stack-small" key={this.state.todos.indexOf(todo)}>
-              <div className="c-cb">
-                <input id={this.state.todos.indexOf(todo)} type="checkbox" />
-                <label className="todo-label" htmlFor={this.state.todos.indexOf(todo)}> {todo}</label>
-              </div>
-              <div className="btn-group">
-                <button type="button" className="btn btn__danger">
-                Delete <span className="visually-hidden">{todo}</span>
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+          <ul className="todo-list stack-large stack-exception" aria-labelledby="list-heading">
+            {this.state.todos.map(todo => (
+              <li className="todo stack-small" key={this.state.todos.indexOf(todo)}>
+                <div className="c-cb">
+                  <input id={this.state.todos.indexOf(todo)} type="checkbox" />
+                  <label className="todo-label" htmlFor={this.state.todos.indexOf(todo)}> {todo}</label>
+                </div>
+                <div className="btn-group">
+                  <button type="button" className="btn btn__danger">
+                  Delete <span className="visually-hidden">{todo}</span>
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </React.Fragment>
     )
   }
