@@ -22,10 +22,26 @@ class Item extends Component {
 
     const form = event.currentTarget;
     const inputValue = form.elements["newTodo"].value;
-    alert('A name was submitted: ' + inputValue);
     this.setState({
       todos: this.state.todos.concat(inputValue)
     })
+  }
+
+  removeTodo(event, name, el) {
+    console.log(el, name);
+    const todos = this.state.todos.filter((name, el) => {
+      console.log((el !== name));
+      return false
+    })
+    this.setState({ todos })
+  }
+
+  removeAll(name, el) {
+    const todos = this.state.todos.filter((name, el) => {
+      console.log((el !== name));
+      return false
+    })
+    this.setState({ todos })
   }
 
   render() {
@@ -38,17 +54,17 @@ class Item extends Component {
             <button type="submit" className="btn btn__primary btn__lg"> Add </button>
           </form>
           <div className="filters btn-group stack-exception">
-            <button type="button" className="btn toggle-btn" aria-pressed="true" onClick={hideCompleted()}>
+            <button type="button" className="btn toggle-btn" aria-pressed="true">
               <span className="visually-hidden">Show </span>
               <span>Hide Completed</span>
               <span className="visually-hidden"> tasks</span>
             </button>
-            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={removeAll()}>
+            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={() => {this.removeAll(1, this.state.todos.indexOf(1))}}>
               <span className="visually-hidden">Show </span>
               <span>Remove All</span>
               <span className="visually-hidden"> tasks</span>
             </button>
-            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={clearCompleted()}>
+            <button type="button" className="btn toggle-btn" aria-pressed="false">
               <span className="visually-hidden">Show </span>
               <span>Clear Completed</span>
               <span className="visually-hidden"> tasks</span>
@@ -64,7 +80,7 @@ class Item extends Component {
                   <label className="todo-label" htmlFor={this.state.todos.indexOf(todo)}> {todo}</label>
                 </div>
                 <div className="btn-group">
-                  <button type="button" className="btn btn__danger" onClick={removeTodo()}>
+                  <button type="button" className="btn btn__danger" onClick={() => { this.removeTodo(todo, this.state.todos.indexOf(todo))}}>
                   Delete <span className="visually-hidden">{todo}</span>
                   </button>
                 </div>
@@ -75,22 +91,6 @@ class Item extends Component {
       </React.Fragment>
     )
   }
-}
-
-function removeTodo() {
-  // remove from array and re-render
-}
-
-function clearCompleted() {
-
-}
-
-function removeAll() {
-  // remove all and re-render
-}
-
-function hideCompleted() {
-  //have this button change text when completed todos hidden 
 }
 
 function App(props) {
