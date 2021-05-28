@@ -27,18 +27,15 @@ class Item extends Component {
     })
   }
 
-  removeTodo(event, name, el) {
-    console.log(el, name);
-    const todos = this.state.todos.filter((name, el) => {
-      console.log((el !== name));
-      return false
+  removeTodo(event, name) {
+    const todos = this.state.todos.filter((name) => {
+      return event !== name;
     })
     this.setState({ todos })
   }
 
   removeAll(name, el) {
     const todos = this.state.todos.filter((name, el) => {
-      console.log((el !== name));
       return false
     })
     this.setState({ todos })
@@ -80,7 +77,7 @@ class Item extends Component {
                   <label className="todo-label" htmlFor={this.state.todos.indexOf(todo)}> {todo}</label>
                 </div>
                 <div className="btn-group">
-                  <button type="button" className="btn btn__danger" onClick={() => { this.removeTodo(todo, this.state.todos.indexOf(todo))}}>
+                  <button type="button" className="btn btn__danger" onClick={() => {this.removeTodo(todo)}}>
                   Delete <span className="visually-hidden">{todo}</span>
                   </button>
                 </div>
