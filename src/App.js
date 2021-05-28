@@ -12,19 +12,25 @@ class Item extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
+  // allows change of state in text box 
   handleChange(event) {
     this.setState({value: event.target.value});
   }
 
+  // handles the form submission and adds a todo to the task list
   handleSubmit(event) {
     event.preventDefault();
 
     const form = event.currentTarget;
     const inputValue = form.elements["newTodo"].value;
-    this.setState({
-      todos: this.state.todos.concat(inputValue)
-    })
+    if (inputValue === '') {
+      alert('Please enter a value into the text field');
+    }
+    else {
+      this.setState({
+        todos: this.state.todos.concat(inputValue)
+      })
+    }
   }
 
   removeTodo(event, name) {
@@ -40,6 +46,14 @@ class Item extends Component {
     })
     this.setState({ todos })
   }
+  // for show/hide todo completion status
+  toggleCompleted() {
+
+  }
+
+  clearCompleted() {
+
+  }
 
   render() {
     return (
@@ -51,7 +65,7 @@ class Item extends Component {
             <button type="submit" className="btn btn__primary btn__lg"> Add </button>
           </form>
           <div className="filters btn-group stack-exception">
-            <button type="button" className="btn toggle-btn" aria-pressed="true">
+            <button type="button" className="btn toggle-btn" aria-pressed="true" onClick={() => {this.toggleCompleted()}}>
               <span className="visually-hidden">Show </span>
               <span>Hide Completed</span>
               <span className="visually-hidden"> tasks</span>
@@ -61,7 +75,7 @@ class Item extends Component {
               <span>Remove All</span>
               <span className="visually-hidden"> tasks</span>
             </button>
-            <button type="button" className="btn toggle-btn" aria-pressed="false">
+            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={() => {this.clearCompleted()}}>
               <span className="visually-hidden">Show </span>
               <span>Clear Completed</span>
               <span className="visually-hidden"> tasks</span>
