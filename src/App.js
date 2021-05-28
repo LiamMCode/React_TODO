@@ -7,10 +7,12 @@ class Item extends Component {
     this.state = {
       todos: ['Implement the addTodo method', 'Implement the removeTodo method', 'Implement the clearCompletedTodos method', 
     'Implement the removeAllTodos method', 'Implement the showHideCompletedTodso method', 'Implement the toggleTodoCompleteStatus method'], 
-      value: ''
+      showItems: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleHide = this.handleHide.bind(this);
+    this.handleShow = this.handleShow.bind(this);
   }
   // allows change of state in text box 
   handleChange(event) {
@@ -20,7 +22,6 @@ class Item extends Component {
   // handles the form submission and adds a todo to the task list
   handleSubmit(event) {
     event.preventDefault();
-
     const form = event.currentTarget;
     const inputValue = form.elements["newTodo"].value;
     if (inputValue === '') {
@@ -31,6 +32,36 @@ class Item extends Component {
         todos: this.state.todos.concat(inputValue)
       })
     }
+  }
+
+  handleHide() {
+    this.setState({
+      checked: true
+    });
+  }
+  hideComplete() {
+    document.querySelectorAll('input[type=checkbox]').forEach((el) =>  {
+      let toHide = el.parentElement.parentElement;
+      if (el.checked === true) {
+        console.log(toHide);
+        this.setState.hidden = true;
+        el.checked = false;
+      }
+      else {
+        console.log(el, false);
+        this.setState.hidden = false;
+      }
+    });
+  }
+
+  handleShow() {
+    this.setState({
+      checked: false
+    })
+  }
+
+  showComplete() {
+
   }
 
   removeTodo(event, name) {
@@ -46,13 +77,23 @@ class Item extends Component {
     })
     this.setState({ todos })
   }
-  // for show/hide todo completion status
-  toggleCompleted() {
 
-  }
 
   clearCompleted() {
-
+    const todos = this.state.todos;
+    document.querySelectorAll('input[type=checkbox]').forEach((el) =>  {
+      let toHide = el.parentElement.parentElement;
+      if (el.checked === true) {
+        console.log(toHide);
+        todos.filter((element) => {
+          return false
+        });
+      }
+      else {
+        console.log(el, false);
+      }
+      this.setState({ todos })
+    });
   }
 
   render() {
@@ -65,16 +106,24 @@ class Item extends Component {
             <button type="submit" className="btn btn__primary btn__lg"> Add </button>
           </form>
           <div className="filters btn-group stack-exception">
-            <button type="button" className="btn toggle-btn" aria-pressed="true" onClick={() => {this.toggleCompleted()}}>
-              <span className="visually-hidden">Show </span>
+            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={() => {this.hideComplete()}}>
+              <span className="visually-hidden">Hide </span>
               <span>Hide Completed</span>
               <span className="visually-hidden"> tasks</span>
             </button>
+
+            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={() => {this.handleShow()}}>
+              <span className="visually-hidden">Show </span>
+              <span>Show Completed</span>
+              <span className="visually-hidden"> tasks</span>
+            </button>
+            
             <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={() => {this.removeAll(1, this.state.todos.indexOf(1))}}>
               <span className="visually-hidden">Show </span>
               <span>Remove All</span>
               <span className="visually-hidden"> tasks</span>
             </button>
+
             <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={() => {this.clearCompleted()}}>
               <span className="visually-hidden">Show </span>
               <span>Clear Completed</span>
@@ -87,9 +136,10 @@ class Item extends Component {
             {this.state.todos.map(todo => (
               <li className="todo stack-small" key={this.state.todos.indexOf(todo)}>
                 <div className="c-cb">
-                  <input id={this.state.todos.indexOf(todo)} type="checkbox" />
+                  <input id={this.state.todos.indexOf(todo)} type="checkbox" onChange={this.handleHide}/>
                   <label className="todo-label" htmlFor={this.state.todos.indexOf(todo)}> {todo}</label>
                 </div>
+
                 <div className="btn-group">
                   <button type="button" className="btn btn__danger" onClick={() => {this.removeTodo(todo)}}>
                   Delete <span className="visually-hidden">{todo}</span>

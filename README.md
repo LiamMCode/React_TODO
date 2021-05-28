@@ -4,9 +4,6 @@ An updated version of the TODO App https://github.com/LiamMCode/Todo-App impleme
 
 Still yet to get working:
 
-addTodo
-removeTodo
 clearCompletedTodo
-removeAllTodo
 showhideCompletedTodos
 toggleTodoCompleteStatus
