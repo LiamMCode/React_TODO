@@ -7,7 +7,8 @@ import { BrowserRouter, Route} from 'react-router-dom';
 
 
 function render() {
-  ReactDOM.render(<BrowserRouter>
+  ReactDOM.render(
+  <BrowserRouter>
     <React.Fragment>
       <Route exact path='/' component={App} /> 
     </React.Fragment>

@@ -6,8 +6,7 @@ class Item extends Component {
     super(props);
     this.state = {
       todos: ['Implement the addTodo method', 'Implement the removeTodo method', 'Implement the clearCompletedTodos method', 
-    'Implement the removeAllTodos method', 'Implement the showHideCompletedTodso method', 'Implement the toggleTodoCompleteStatus method'], 
-      showItems: []
+    'Implement the removeAllTodos method', 'Implement the showHideCompletedTodso method', 'Implement the toggleTodoCompleteStatus method']
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,18 +39,7 @@ class Item extends Component {
     });
   }
   hideComplete() {
-    document.querySelectorAll('input[type=checkbox]').forEach((el) =>  {
-      let toHide = el.parentElement.parentElement;
-      if (el.checked === true) {
-        console.log(toHide);
-        this.setState.hidden = true;
-        el.checked = false;
-      }
-      else {
-        console.log(el, false);
-        this.setState.hidden = false;
-      }
-    });
+    // move to new array and del from old and in show add them back into the old array and del from the new one
   }
 
   handleShow() {
@@ -65,6 +53,7 @@ class Item extends Component {
   }
 
   removeTodo(event, name) {
+    console.log(event, name);
     const todos = this.state.todos.filter((name) => {
       return event !== name;
     })
@@ -80,20 +69,28 @@ class Item extends Component {
 
 
   clearCompleted() {
-    const todos = this.state.todos;
-    document.querySelectorAll('input[type=checkbox]').forEach((el) =>  {
+    const checkedTodos = [];
+    const { todos } = this.state;
+
+    document.querySelectorAll('input[type=checkbox]').forEach((el, i) =>  {
       let toHide = el.parentElement.parentElement;
+      let labelParent = toHide.children[0];
+      let labelValue = labelParent.children[1];
+
+    
       if (el.checked === true) {
-        console.log(toHide);
-        todos.filter((element) => {
-          return false
-        });
+        labelValue = document.getElementsByClassName(labelValue.className)[i].innerHTML;
+        labelValue = labelValue.substring(1); // theres a weird whitespace at the start of labelValue this is to remove it
+        checkedTodos.push(labelValue)
       }
-      else {
-        console.log(el, false);
-      }
-      this.setState({ todos })
+
+      el.checked = false;
     });
+
+    const newTodos = todos.filter((todo) => !checkedTodos.includes(todo))
+    console.log(newTodos)
+    
+    this.setState({ todos: newTodos });       
   }
 
   render() {
