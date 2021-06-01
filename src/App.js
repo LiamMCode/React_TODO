@@ -40,7 +40,7 @@ class Item extends Component {
     });
   }
   hideComplete() {
-    this.clearCompleted();
+    this.clearCompleted(false);
     const { checkedTodos } = this.state;
     let { completedBtn } = this.state;
 
@@ -77,7 +77,7 @@ class Item extends Component {
   }
 
 
-  clearCompleted() {
+  clearCompleted(remove) {
     const { checkedTodos } = this.state;
     const { todos } = this.state;
 
@@ -95,10 +95,13 @@ class Item extends Component {
       el.checked = false;
     });
     const newTodos = todos.filter((todo) => !checkedTodos.includes(todo))
-    const completed = this.state.checkedTodos.filter((name, el) => {
-      return false;
-    })
-    this.setState({ checkedTodos: completed });
+
+    if (remove === true) {
+      const completed = this.state.checkedTodos.filter((name, el) => {
+        return false;
+      })
+      this.setState({ checkedTodos: completed });
+    }
     this.setState({ todos: newTodos });
   }
 
@@ -124,7 +127,7 @@ class Item extends Component {
               <span className="visually-hidden"> tasks</span>
             </button>
 
-            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={() => {this.clearCompleted()}}>
+            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={() => {this.clearCompleted(true)}}>
               <span className="visually-hidden">Show </span>
               <span>Clear Completed</span>
               <span className="visually-hidden"> tasks</span>

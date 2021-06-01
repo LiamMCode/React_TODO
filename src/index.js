@@ -14,6 +14,18 @@ function render() {
     </React.Fragment>
     </BrowserRouter>, document.getElementById('root')
   );
+
+  if (module.hot) {
+    module.hot.accept('./App', () => {
+      ReactDOM.render(
+        <BrowserRouter>
+        <React.Fragment>
+          <Route exact path='/' component={App} /> 
+        </React.Fragment>
+        </BrowserRouter>, document.getElementById('root')
+      );
+    })
+  }
 }
 render();
 
