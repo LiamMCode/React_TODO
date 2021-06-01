@@ -6,12 +6,13 @@ class Item extends Component {
     super(props);
     this.state = {
       todos: ['Implement the addTodo method', 'Implement the removeTodo method', 'Implement the clearCompletedTodos method', 
-    'Implement the removeAllTodos method', 'Implement the showHideCompletedTodso method', 'Implement the toggleTodoCompleteStatus method']
+    'Implement the removeAllTodos method', 'Implement the showHideCompletedTodso method', 'Implement the toggleTodoCompleteStatus method'], 
+      checkedTodos: [], 
+      completedBtn: 'Hide Completed'
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleHide = this.handleHide.bind(this);
-    this.handleShow = this.handleShow.bind(this);
   }
   // allows change of state in text box 
   handleChange(event) {
@@ -39,21 +40,25 @@ class Item extends Component {
     });
   }
   hideComplete() {
-    // move to new array and del from old and in show add them back into the old array and del from the new one
-  }
+    this.clearCompleted();
+    const { checkedTodos } = this.state;
+    let { completedBtn } = this.state;
 
-  handleShow() {
-    this.setState({
-      checked: false
-    })
-  }
+    if (completedBtn === 'Show Completed') {
+      let allTodos = [];
+      const { todos } = this.state;
 
-  showComplete() {
+      allTodos = todos.concat(checkedTodos);
+      this.setState({ completedBtn : 'Hide Completed'});
+      this.setState({ todos : allTodos});
+    }
 
+    else if (checkedTodos.length > 0) {
+      this.setState({ completedBtn : 'Show Completed'});
+    }
   }
 
   removeTodo(event, name) {
-    console.log(event, name);
     const todos = this.state.todos.filter((name) => {
       return event !== name;
     })
@@ -64,12 +69,16 @@ class Item extends Component {
     const todos = this.state.todos.filter((name, el) => {
       return false
     })
-    this.setState({ todos })
+    const completed = this.state.checkedTodos.filter((name, el) => {
+      return false;
+    })
+    this.setState({ todos });
+    this.setState({checkedTodos : completed});
   }
 
 
   clearCompleted() {
-    const checkedTodos = [];
+    const { checkedTodos } = this.state;
     const { todos } = this.state;
 
     document.querySelectorAll('input[type=checkbox]').forEach((el, i) =>  {
@@ -81,16 +90,16 @@ class Item extends Component {
       if (el.checked === true) {
         labelValue = document.getElementsByClassName(labelValue.className)[i].innerHTML;
         labelValue = labelValue.substring(1); // theres a weird whitespace at the start of labelValue this is to remove it
-        checkedTodos.push(labelValue)
+        checkedTodos.push(labelValue);
       }
-
       el.checked = false;
     });
-
     const newTodos = todos.filter((todo) => !checkedTodos.includes(todo))
-    console.log(newTodos)
-    
-    this.setState({ todos: newTodos });       
+    const completed = this.state.checkedTodos.filter((name, el) => {
+      return false;
+    })
+    this.setState({ checkedTodos: completed });
+    this.setState({ todos: newTodos });
   }
 
   render() {
@@ -105,13 +114,7 @@ class Item extends Component {
           <div className="filters btn-group stack-exception">
             <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={() => {this.hideComplete()}}>
               <span className="visually-hidden">Hide </span>
-              <span>Hide Completed</span>
-              <span className="visually-hidden"> tasks</span>
-            </button>
-
-            <button type="button" className="btn toggle-btn" aria-pressed="false" onClick={() => {this.handleShow()}}>
-              <span className="visually-hidden">Show </span>
-              <span>Show Completed</span>
+              <span className="btnLabel">{ this.state.completedBtn }</span>
               <span className="visually-hidden"> tasks</span>
             </button>
             
