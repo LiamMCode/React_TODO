@@ -19,9 +19,9 @@ function render() {
     module.hot.accept('./App', () => {
       ReactDOM.render(
         <BrowserRouter>
-        <React.Fragment>
-          <Route exact path='/' component={App} /> 
-        </React.Fragment>
+          <React.Fragment>
+            <Route exact path='/' component={App} /> 
+          </React.Fragment>
         </BrowserRouter>, document.getElementById('root')
       );
     })
